@@ -205,3 +205,9 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Virtual environments
+#  Virtual environments created by tools like venv, virtualenv, or conda.
+#  These directories contain the Python interpreter and installed packages, which are not needed
+#  in version control.
+medchatbot/
