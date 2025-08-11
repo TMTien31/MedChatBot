@@ -2,39 +2,6 @@
 
 A medical chatbot application that uses RAG (Retrieval-Augmented Generation) architecture to answer medical questions based on medical literature. The system combines **Google Gemini 2.5 Pro** as the language model with **Pinecone** vector database for efficient document retrieval.
 
-## Project Structure
-
-```
-MedChatBot/
-│
-├── app.py                 # Main Flask application
-├── store_index.py         # Vector index creation and storage script
-├── template.py           # Project structure initialization script
-├── requirements.txt      # Python dependencies
-├── setup.py             # Package configuration
-├── .env                 # Environment variables (API keys)
-├── .gitignore           # Git ignore rules
-├── LICENSE              # MIT License
-├── README.md            # This file
-│
-├── src/
-│   ├── __init__.py      # Package initialization
-│   ├── helper.py        # Utility functions (PDF loading, text splitting, embeddings)
-│   └── prompt.py        # System prompt configuration
-│
-├── templates/
-│   └── chat.html        # Web interface template
-│
-├── static/
-│   └── style.css        # CSS styling
-│
-├── Data/
-│   └── *.pdf            # Medical documents (Gale Encyclopedia of Medicine Vol. 1)
-│
-└── research/
-    └── trials.ipynb     # Research and experimentation notebook
-```
-
 ## Technology Stack
 
 - **Backend**: Flask
