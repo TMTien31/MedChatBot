@@ -5,7 +5,7 @@ A medical chatbot application that uses RAG (Retrieval-Augmented Generation) arc
 ## Technology Stack
 
 - **Backend**: Flask
-- **Language Model**: Google Gemini 2.5 Pro
+- **Language Model**: gemini-2.0-flash-lite
 - **Vector Database**: Pinecone
 - **Embeddings**: HuggingFace sentence-transformers (all-MiniLM-L6-v2)
 - **Document Processing**: LangChain, PyPDF
