@@ -1,7 +1,8 @@
 # MedChatBot 
 
-Demo on [Hugging Face Spaces](https://huggingface.co/spaces/tmt3103/MedChatBot)
-A medical chatbot application that uses RAG (Retrieval-Augmented Generation) architecture to answer medical questions based on medical literature. The system combines **Google Gemini 2.5 Pro** as the language model with **Pinecone** vector database for efficient document retrieval.
+Demo on [Hugging Face Spaces](https://huggingface.co/spaces/tmt3103/MedChatBot).
+
+A medical chatbot application that uses RAG (Retrieval-Augmented Generation) architecture to answer medical questions based on medical literature. The system combines **Google Gemini 2.0 Flash Lite** as the language model with **Pinecone** vector database for efficient document retrieval.
 
 ## Technology Stack
 
