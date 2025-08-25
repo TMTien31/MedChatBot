@@ -5,6 +5,9 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnableLambda, RunnablePassthrough
+from operator import itemgetter
 from dotenv import load_dotenv
 from src.prompt import *
 import os
@@ -36,7 +39,7 @@ llm = ChatGoogleGenerativeAI(
     model="gemini-2.0-flash-lite",
     google_api_key=GEMINI_API_KEY,
     temperature=0.4,
-    max_output_tokens=2048
+    max_output_tokens=4069
 )
 prompt = ChatPromptTemplate.from_messages(
     [
@@ -44,9 +47,25 @@ prompt = ChatPromptTemplate.from_messages(
         ("human", "{input}"),
     ]
 )
+# legacy chain
+# question_answer_chain = create_stuff_documents_chain(llm, prompt)
+# rag_chain = create_retrieval_chain(retriever, question_answer_chain)
 
-question_answer_chain = create_stuff_documents_chain(llm, prompt)
-rag_chain = create_retrieval_chain(retriever, question_answer_chain)
+translate_vi_to_en_chain = translate_vi_to_en_prompt | llm | StrOutputParser()
+translate_en_to_vi_chain = translate_en_to_vi_prompt | llm | StrOutputParser()
+
+rag_chain = (
+    RunnableLambda(lambda x: translate_vi_to_en_chain.invoke({"text": x["text"]}))
+    | RunnableLambda(lambda x: {"input": x})
+    | {
+        "context": lambda x: retriever.invoke(x["input"]),
+        "input": itemgetter("input"),
+    }
+    | prompt
+    | llm
+    | StrOutputParser()
+    | RunnableLambda(lambda x: translate_en_to_vi_chain.invoke({"text": x}))
+)
 
 
 @app.route("/")
@@ -58,9 +77,9 @@ def chat():
     msg = request.form["msg"]
     input = msg
     print(input)
-    response = rag_chain.invoke({"input": msg})
-    print("Response : ", response["answer"])
-    return str(response["answer"])
+    response = rag_chain.invoke({"text": msg})
+    print("Response : ", response)
+    return response
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port= 8080, debug= True)

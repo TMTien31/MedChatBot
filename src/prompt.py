@@ -1,3 +1,5 @@
+from langchain_core.prompts import ChatPromptTemplate
+
 system_prompt = ('''
     You are a medical question-answering assistant.  
     Use the retrieved context as your primary source of truth.  
@@ -8,3 +10,13 @@ system_prompt = ('''
     '''
     "{context}"
 )
+
+translate_vi_to_en_prompt = ChatPromptTemplate.from_messages([
+    ("system", "You are a helpful assistant that translates Vietnamese text to English. Only provide the translated text, do not include any additional information."),
+    ("user", "Translate the following Vietnamese text to English: {text}"),
+])
+
+translate_en_to_vi_prompt = ChatPromptTemplate.from_messages([
+    ("system", "You are a helpful assistant that translates English to Vietnamese. Only provide the translated text, do not include any additional information."),
+    ("user", "Translate the following English text to Vietnamese: {text}"),
+])
