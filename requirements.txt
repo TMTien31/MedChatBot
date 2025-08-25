@@ -10,4 +10,5 @@ langchain_openai
 langchain_experimental
 langchain_google_genai
 langchain-huggingface
+langsmith
 -e .
