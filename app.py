@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, request
-from src.helper import download_hugging_face_embeddings
+from src.helper import *
 from langchain_pinecone import PineconeVectorStore
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains import create_retrieval_chain
@@ -58,7 +58,11 @@ rag_chain = (
     RunnableLambda(lambda x: translate_vi_to_en_chain.invoke({"text": x["text"]}))
     | RunnableLambda(lambda x: {"input": x})
     | {
-        "context": lambda x: retriever.invoke(x["input"]),
+        "context": (
+            itemgetter("input") 
+            | RunnableLambda(lambda q: retriever.invoke(q)) 
+            | RunnableLambda(get_context) 
+        ),
         "input": itemgetter("input"),
     }
     | prompt
